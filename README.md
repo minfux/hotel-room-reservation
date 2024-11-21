@@ -4,7 +4,7 @@
 
 This is a simple hotel room reservation program made as a final projects during a  
 C++ fundamentals course at TAMK (Tampere University of Applied Sciences). For more  
-detailed information about the functionality read the [documentation](documentation.md).
+detailed information about the functionality read the [documentation](documentation.pdf).
 
 - Reserving new rooms
 
