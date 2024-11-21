@@ -1,4 +1,12 @@
 // This is a hotel room reservation program of (5p)
+// Samuel M.
+
+// Additional features.
+// Comprehensive name validation.
+// Allows to manually or automatically choose room.
+// Search for rooms using a room number.
+// Check file contents before opening.
+// Checks if all the rooms are reserved.
 
 #include <iostream>
 #include <cstdlib>
