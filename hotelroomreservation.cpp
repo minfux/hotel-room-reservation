@@ -59,7 +59,7 @@ int main()
     int lineCounter = 0; // Count number of lines in the file.
     bool error; // Menu error check.
     bool again = true; // Run program again.
-    string menuNumber;
+    string menu;
     string line; // Reading the lines in the file.
 
     /* Arrays to hold info about the rooms i.e.
@@ -115,8 +115,8 @@ int main()
         {
             error = false;
             cout << ">> ";
-            cin >> menuNumber;
-            if (menuNumber !="y" && menuNumber !="Y" && menuNumber !="n" && menuNumber !="N")
+            cin >> menu;
+            if (menu !="y" && menu !="Y" && menu !="n" && menu !="N")
             {
                 cout << "\nInvalid input, please re-enter.\n";
                 error = true;
@@ -125,7 +125,7 @@ int main()
             }
         } while (error);
 
-        if (menuNumber == "n" || menuNumber == "N")
+        if (menu == "n" || menu == "N")
         {
             cout << "\nThe program cannot save reservation data\n"
                     "without the necessary text file.\n";
@@ -161,8 +161,8 @@ int main()
         {
             error = false;
             cout << ">> ";
-            cin >> menuNumber;
-            if (cin.fail() || (menuNumber!="1" && menuNumber!="2" && menuNumber!="1." && menuNumber!="2." && menuNumber!="3" && menuNumber!="3."))
+            cin >> menu;
+            if (cin.fail() || (menu!="1" && menu!="2" && menu!="1." && menu!="2." && menu!="3" && menu!="3."))
             {
                 cout << "\nPlease enter a number corresponding to a menu item.\n" ;
                 error = true;
@@ -172,15 +172,15 @@ int main()
         } while (error);
         
         // Reserve a new room.
-        if (menuNumber == "1" || menuNumber == "1.")
-            ReserveNew(RoomsID, RoomsNumber, RoomsName, menuNumber, numberOfRooms, generator);
+        if (menu == "1" || menu == "1.")
+            ReserveNew(RoomsID, RoomsNumber, RoomsName, menu, numberOfRooms, generator);
         
         // Search for pre-existing reservation.
-        if (menuNumber == "2" || menuNumber == "2.")
-            SearchReserved(RoomsID, RoomsNumber, RoomsName, menuNumber, numberOfRooms);
+        if (menu == "2" || menu == "2.")
+            SearchReserved(RoomsID, RoomsNumber, RoomsName, menu, numberOfRooms);
 
         // Exit program.
-        if (menuNumber == "3" || menuNumber == "3.")
+        if (menu == "3" || menu == "3.")
             again = false;
 
     } while(again);
@@ -221,7 +221,7 @@ void RoomGenerator(int &numberOfRooms, mt19937 &generator)
 
 
 
-void ReserveNew(int RoomsID[], int RoomsNumber[], string RoomsName[], string menuNumber, int numberOfRooms, mt19937 &generator)
+void ReserveNew(int RoomsID[], int RoomsNumber[], string RoomsName[], string menu, int numberOfRooms, mt19937 &generator)
 {
     bool allFull = true; // All rooms reserved.
     bool error; // Menu error check.
@@ -254,18 +254,18 @@ void ReserveNew(int RoomsID[], int RoomsNumber[], string RoomsName[], string men
     cout << "2. " << "Double bed room (" << PRICETWIN << "€)" << endl;
 
     // Choose 1 or 2.
-    menuNumber = MenuChoice();
+    menu = MenuChoice();
 
-    if (menuNumber == "1" || menuNumber == "1.")
+    if (menu == "1" || menu == "1.")
     {
         price = PRICESINGLE;
-        roomNumber = ChooseRoom(RoomsID, generator, menuNumber, 1, numberOfRooms/2);
+        roomNumber = ChooseRoom(RoomsID, generator, menu, 1, numberOfRooms/2);
     }
 
-    if (menuNumber == "2" || menuNumber == "2.")
+    if (menu == "2" || menu == "2.")
     {
         price = PRICETWIN;
-        roomNumber = ChooseRoom(RoomsID, generator, menuNumber, (numberOfRooms/2)+1, numberOfRooms);
+        roomNumber = ChooseRoom(RoomsID, generator, menu, (numberOfRooms/2)+1, numberOfRooms);
     }
 
     cin.ignore();
@@ -336,8 +336,8 @@ void ReserveNew(int RoomsID[], int RoomsNumber[], string RoomsName[], string men
     {
         error = false;
         cout << ">> ";
-        cin >> menuNumber;
-        if (menuNumber !="y" && menuNumber !="Y" && menuNumber !="n" && menuNumber !="N")
+        cin >> menu;
+        if (menu !="y" && menu !="Y" && menu !="n" && menu !="N")
         {
             cout << "\nInvalid input, please re-enter.\n";
             error = true;
@@ -346,7 +346,7 @@ void ReserveNew(int RoomsID[], int RoomsNumber[], string RoomsName[], string men
         }
     } while (error);
 
-    if (menuNumber == "y" || menuNumber == "Y")
+    if (menu == "y" || menu == "Y")
     {
         RoomsID[roomNumber-1] = reservationID;
         RoomsNumber[roomNumber-1] = roomNumber;
@@ -357,7 +357,7 @@ void ReserveNew(int RoomsID[], int RoomsNumber[], string RoomsName[], string men
 
 
 
-void SearchReserved(int RoomsID[], int RoomsNumber[], string RoomsName[], string menuNumber, int numberOfRooms)
+void SearchReserved(int RoomsID[], int RoomsNumber[], string RoomsName[], string menu, int numberOfRooms)
 {
     string search; // Search prompt.
     int roomNumber; // Write down the room number if one is found
@@ -390,7 +390,7 @@ void SearchReserved(int RoomsID[], int RoomsNumber[], string RoomsName[], string
             for (int i=0; i<numberOfRooms; ++i)
             {
                 // Search is a room ID.
-                if (search == to_string(RoomsID[i]))
+                if (search == to_string(RoomsID[i]) && search != "0")
                 {
                     resultFoundIsID = true;
                     resultFound = true;
@@ -398,14 +398,14 @@ void SearchReserved(int RoomsID[], int RoomsNumber[], string RoomsName[], string
                 }
 
                 // Search is a room number.
-                else if (search == to_string(RoomsNumber[i]))
+                else if (search == to_string(RoomsNumber[i]) && search != "0")
                 {
                     resultFound = true;
                     roomNumber = i;
                 }
 
                 // Search is a name.
-                else if (search == RoomsName[i])
+                else if (search == RoomsName[i] && search != "N/A")
                 {
                     resultFound = true;
                     ++nameCount;
@@ -462,8 +462,8 @@ void SearchReserved(int RoomsID[], int RoomsNumber[], string RoomsName[], string
         {
             error = false;
             cout << ">> ";
-            cin >> menuNumber;
-            if (menuNumber !="y" && menuNumber !="Y" && menuNumber !="n" && menuNumber !="N")
+            cin >> menu;
+            if (menu !="y" && menu !="Y" && menu !="n" && menu !="N")
             {
                 cout << "\nInvalid input, please re-enter.\n";
                 error = true;
@@ -472,7 +472,7 @@ void SearchReserved(int RoomsID[], int RoomsNumber[], string RoomsName[], string
             }
         } while (error);
 
-        if (menuNumber == "y" || menuNumber == "Y")
+        if (menu == "y" || menu == "Y")
         {
             RoomsID[roomNumber] = 0;
             RoomsNumber[roomNumber] = 0;
@@ -538,7 +538,7 @@ string MenuChoice()
 
 
 
-int ChooseRoom(int RoomsID[], mt19937 &generator, string menuNumber, int roomMin, int roomMax)
+int ChooseRoom(int RoomsID[], mt19937 &generator, string menu, int roomMin, int roomMax)
 {
     int roomNumber; // Room number to be returned.
     bool error; // Invalid input state.
@@ -548,10 +548,10 @@ int ChooseRoom(int RoomsID[], mt19937 &generator, string menuNumber, int roomMin
     cout << endl << "2. Choose automatically\n";
 
     // Choose 1 or 2.
-    menuNumber = MenuChoice();
+    menu = MenuChoice();
 
     // Choose room number manually.
-    if (menuNumber == "1" || menuNumber == "1.")
+    if (menu == "1" || menu == "1.")
     {
         cout << endl << "Plase provide the room number (" << roomMin << "-" << roomMax << ")\n";
         do
@@ -578,7 +578,7 @@ int ChooseRoom(int RoomsID[], mt19937 &generator, string menuNumber, int roomMin
     }
 
     // Choose room number automatically.
-    if (menuNumber == "2" || menuNumber == "2.")
+    if (menu == "2" || menu == "2.")
     {
         uniform_int_distribution<int> RoomNumberGenerator(roomMin, roomMax);
         do
