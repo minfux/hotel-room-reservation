@@ -614,7 +614,7 @@ bool IsValidFullname(string &fullName)
         return false;
     else
         // Create new string staring with first character.
-        fullName = fullName.substr(start, end - start +1); // maybe also fullName.lenght();
+        fullName = fullName.substr(start, end - start +1);
 
     // Iterate through all characters of the string.
     for (size_t i=0; i < fullName.length(); ++i)
